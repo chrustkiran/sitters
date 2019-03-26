@@ -12,10 +12,7 @@
 <body>
 <style>
     /* Add a black background color to the top navigation */
-    .topnav {
-        background-color: darkslategrey;
-        overflow: hidden;
-    }
+
 
     /* Style the links inside the navigation bar */
     .topnav a {
@@ -26,7 +23,14 @@
         text-decoration: none;
         font-size: 17px;
     }
-
+    .topnav div {
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-size: 17px;
+    }
     /* Change the color of links on hover */
     .topnav a:hover {
         background-color: #ddd;
@@ -41,13 +45,8 @@
         float: right;
     }
 </style>
-<div class="topnav">
-    <a  href="../customers/home">Home</a>
-    <a href="../customers/profile">Profile</a>
-    <a href="#">Message</a>
-    <div class="topnav-right">
-        <a href="#search">Search</a>
 
-        <a href="../logout">Logout</a>
-    </div>
+<div class="topnav">
+
 </div>
+<br>

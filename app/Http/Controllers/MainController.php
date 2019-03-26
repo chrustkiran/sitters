@@ -25,6 +25,7 @@ class MainController extends Controller
     }
 
     public function guest_home(){
+
         return view('guest_home');
     }
 
@@ -100,6 +101,7 @@ class MainController extends Controller
 
     public function logout(Request $request){
         Auth::logout();
+        setcookie('username',"",time()+(86400+30),'/');
         return redirect('/login');
     }
 
@@ -116,6 +118,8 @@ class MainController extends Controller
 
         if(Auth::attempt($user_array)){
             if(Auth::user()->verified == true) {
+                    setcookie('username',$request->get('username'),time()+(86400*30),'/');
+
                     return redirect('main/sitters/home');
             }
             else{

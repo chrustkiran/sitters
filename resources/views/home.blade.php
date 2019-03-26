@@ -9,6 +9,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
+
+<style>
+    body {
+       background: url("../../assets/images/hh.jpg");
+       // background: rgba(76, 175, 80, 0.3)
+
+    }
+
+
+</style>
 <script>
     $.ajaxSetup({
         headers: {
@@ -70,8 +80,10 @@
 
 
 </script>
+<body>
 
 <div class="container">
+
 <!-- Search bar -->
     <div class="input-group mb-3">
         <div class="input-group-prepend">
@@ -89,8 +101,8 @@
 
     <br>
 
-    <h2 class="text-center">Welcome {{Auth::user()->username}} </h2>
-    <h3 class="text-center">These are the active posts for you</h3>
+    <h2 class="text-center" style=" color: white;">Welcome {{Auth::user()->username}} </h2>
+    <h3 class="text-center" style=" color: white;">These are the active posts for you</h3>
 <div id="main_post">
    @include('post')
 </div>

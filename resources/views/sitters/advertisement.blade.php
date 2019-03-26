@@ -10,16 +10,30 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <style>
+            body {
+                background: url("../../assets/images/hh.jpg");
+
+            }
+
+            #add_post img:hover{
+                transform: scaleX(1.25) scaleY(1.25);
+            }
+        </style>
     </head>
-    <div class="container">
+
+
+    <div class="container" >
         <br>
         @if(count($data['ad']['active'])==0)
-        <div  style="width:150px;margin-left: auto; margin-right: auto;">
-            <img class="card-img-top" data-toggle="modal" data-target="#myModal" src="{{URL::asset('/assets/images/add_heart.jpg')}}" alt="Card image">
+        <div  style="width:80px;margin-left: auto; margin-right: auto;" id="add_post">
+
+            <img title="Add new post" class="card-img-top" data-toggle="modal" data-target="#myModal" src="{{URL::asset('/assets/images/ad_silver.png')}}" alt="Card image" >
         </div>
         @else
-            <div  style="width:150px;margin-left: auto; margin-right: auto;">
-                <img class="card-img-top" data-toggle="modal" data-target="#myModalActive" src="{{URL::asset('/assets/images/add_heart.jpg')}}" alt="Card image">
+            <div  style="width:80px;margin-left: auto; margin-right: auto;" id="add_post">
+                <img title="You have an active post. (expire or remove it for adding new post)" class="card-img-top" data-toggle="modal" data-target="#myModalActive" src="{{URL::asset('/assets/images/ad_silver.png')}}" alt="Card image">
             </div>
         @endif
 
@@ -57,8 +71,9 @@
                     <form action="{{URL::asset('main/sitters/createad')}}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="form-group">
-                            <textarea type="text" class="form-control" placeholder="Availability" required="required" name="availability"></textarea>
+                            <textarea type="text" class="form-control" placeholder="Availability per hour" required="required" name="availability"></textarea>
                         </div>
+
                         <div class="form-group">
                            <select class="form-control" placeholder="Type" required="required" name="roles">
                                 @foreach($data['roles'] as $role)
@@ -97,10 +112,11 @@
             </div>
         </div>
 
-<div class="panel-body">
-    <h3><span class="label label-success">Active</span></h3>
+<div class="panel-body" >
+    <h3 class="text-center"><span class="label ">Active Posts</span></h3>
         <br>
-
+<div style="display: table;
+    margin: 0 auto;">
     @foreach($data['ad']['active'] as $active)
         <?php $index_num = 0 ?>
         <div class="card" style=" width: 25rem;">
@@ -144,18 +160,23 @@
                 Roles : {{$active->roles}}<br>
                 Location : {{$active->location}} <br>
                 Mobile : {{$active->mobile}}
-            <button onclick="deleteTag({{$data['ad']['active'][0]->id}})" class="btn btn-danger" style="float: right;">delete</button>
-                 <button data-toggle="modal" data-target="#myEditingModal" class="btn btn-warning" style="float: right;">edit</button>
+
             </div>
             <div class="card-footer">Created at : {{$active->created_at}} <br> Updated at : {{$active->updated_at}}</div>
         </div>
-        @endforeach
+        <div style="display: table; margin: 0 auto;">
+            <button title="edit" data-toggle="modal" data-target="#myEditingModal" class="btn btn-lg " style=""><span class="glyphicon glyphicon-edit"></span></button>
+            <button title="expire" onclick="makeExpire({{$data['ad']['active'][0]->id}})" class="btn btn-lg" style=""><span class="glyphicon glyphicon-remove-circle"></span></button>
+            <button title="delete" onclick="deleteTag({{$data['ad']['active'][0]->id}})" class="btn btn-lg"   style=""><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+    @endforeach
 
+</div>
 </div>
         <br>
 
         <div class="container">
-            <h3><span class="label label-danger">Expired</span></h3>
+            <h3 class="text-center"><span class="label ">Expired Posts</span></h3>
             <br>
             @foreach($data['ad']['expired'] as $active)
                 <div class="card">
@@ -182,6 +203,7 @@
 
                 <form action="{{URL::asset('main/sitters/editAd')}}" method="post" enctype="multipart/form-data">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    @if(count($data['ad']['active']) == 1 )
                     <input type="hidden" name="id" value="{{ $data['ad']['active'][0]->id }}">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Availability" required="required"  value="{{$data['ad']['active'][0]->availability}}" name="availability">
@@ -230,14 +252,23 @@
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block" id="submit" >Update</button>
                     </div>
-
+                        @endif
                 </form>
                 <!-- Modal footer -->
                 <script>
+
+                    function makeExpire(id) {
+                        if (confirm("Are you sure to expire this?")) {
+                            window.location.href = 'expire/' + id;
+                        }
+                        else{
+                            txt="You pressed cancel!";
+                        }
+                    }
                     function deleteTag(id){
 
                         if (confirm("Are you sure to delete this?")) {
-                            
+                            window.location.href = 'deleteAd/'+id;
                         } else {
                             txt = "You pressed Cancel!";
                         }

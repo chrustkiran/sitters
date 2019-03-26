@@ -24,11 +24,23 @@ class SittersController extends Controller
     }
 
     public function showHome(){
+        if(!isset($_COOKIE['username'])){
+            return redirect('login');
+        }
         $images = DB::select("select * from images");
         $results_active = DB::select("select * from posts where active=?",[ true] );
 
         $data = array('images' => $images , 'posts'=>$results_active);
         return view('home')->with('data',$data);
+    }
+
+    public function expire($id){
+        if(!isset($_COOKIE['username'])){
+            return redirect('login');
+        }
+
+        DB::update("update posts set active=? where id=?",[0,$id]);
+        return back();
     }
 
     public function filtering(Request $request){
@@ -61,19 +73,38 @@ class SittersController extends Controller
 
 
 
+    public function deleteAd($id){
+        if(!isset($_COOKIE['username'])){
+            return redirect('login');
+        }
+
+        DB::delete("delete from posts where id=?",[$id]);
+        DB::delete("delete from images where adv_id=?",[$id]);
+
+        return back();
+
+    }
 
     public function showAdvertise(){
-        $data_array = $this->fetchAd();
+        if(!isset($_COOKIE['username'])){
+            return redirect('login');
+        }
 
-        $roles = DB::select("select * from roles");
-        $postcodes = DB::select("select * from postcode");
-        $images = DB::select("select * from images");
+            $data_array = $this->fetchAd();
 
-        $data = ['ad'=>$data_array , 'roles'=>$roles , 'postcodes' =>$postcodes,  'images'=>$images];
+            $roles = DB::select("select * from roles");
+            $postcodes = DB::select("select * from postcode");
+            $images = DB::select("select * from images");
 
-        return view('sitters.advertisement')->with('data', $data);
+            $data = ['ad' => $data_array, 'roles' => $roles, 'postcodes' => $postcodes, 'images' => $images];
+
+            return view('sitters.advertisement')->with('data', $data);
+
     }
     public function createAd(Request $request){
+        if(!isset($_COOKIE['username'])){
+            return redirect('login');
+        }
 
         $isimage  = false;
         $this->validate($request, [
@@ -147,6 +178,9 @@ class SittersController extends Controller
 
     public function editAd(Request $request){
 
+        if(!isset($_COOKIE['username'])){
+            return redirect('login');
+        }
         $isimage  = false;
         $this->validate($request, [
             'availability'=>'alphanum|required',
@@ -212,6 +246,9 @@ class SittersController extends Controller
         return back();
     }
     public function fetchAd(){
+        if(!isset($_COOKIE['username'])){
+            return redirect('login');
+        }
         $results_active = DB::select("select * from posts where username=? and active=?",[Auth::user()->username, true] );
 
         $results_expired = DB::select("select * from posts where username=? and active=?",[Auth::user()->username, false]);

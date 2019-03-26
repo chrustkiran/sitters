@@ -9,13 +9,18 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style type="text/css">
+
+        body {
+            background: url("../../public/assets/images/hh.jpg");
+        }
+
         .login-form {
             width: 340px;
             margin: 50px auto;
         }
         .login-form form {
             margin-bottom: 15px;
-            background: #f7f7f7;
+          //  background: #f7f7f7;
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
             padding: 30px;
         }
@@ -65,11 +70,11 @@
         </div>
 
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Verify</button>
+            <button type="submit" class="btn  btn-block">Verify</button>
         </div>
 
     </form>
-    <p class="text-center"><a href="#">Send verification code again</a></p>
+    <p class="text-center" ><a href="#" style="color: silver">Send verification code again</a></p>
 </div>
 </body>
 </html>

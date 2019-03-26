@@ -9,13 +9,22 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style type="text/css">
+
+        body {
+            background: url("../public/assets/images/hh.jpg");
+        }
+
+        button{
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+        }
         .login-form {
             width: 340px;
             margin: 50px auto;
         }
         .login-form form {
             margin-bottom: 15px;
-            background: #f7f7f7;
+           // background: #f7f7f7;
             box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
             padding: 30px;
         }
@@ -83,7 +92,8 @@
 <div class="login-form">
     <form action="{{URL::asset('register/createuser')}}" method="post">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <h2 class="text-center">Register</h2>
+        <h2 class="text-center" style="color: silver;">S I T T E R S <span class="glyphicon glyphicon-heart-empty"></span> </h2>
+        <p class="text-center" style="color: silver;">Register</p>
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Name" required="required" name="name">
         </div>
@@ -102,18 +112,19 @@
         <div class="captcha" >
             <img src="http://localhost/laravel/public/captcha/default?Tk7WqDsi" id="captcha_img">
 
-            <button type="button" class="btn btn-success" id="refresh"><i class="fa fa-refresh" >R</i></button>
+            <button type="button" class="btn " id="refresh"><i class="fa fa-refresh" ><span class="glyphicon glyphicon-refresh"></span></i></button>
         </div>
         </div>
         <div class="form-group">
             <input id="captcha" type="text" class="form-control" placeholder="Enter Captcha" name="captcha">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block" id="submit" >Register</button>
+            <button type="submit" class="btn  btn-block" id="submit" >Register</button>
         </div>
 
     </form>
-    <p class="text-center"><a href="main/guest/home">Login as a guest</a></p>
+    <p class="text-center" style="color: silver;"><a style="color: silver;" href="main/guest/home">Login as a guest</a></p>
+    <p class="text-center" style="color: silver;"><a style="color: silver;" href="login">Already have an account?</a></p>
 </div>
 </body>
 
