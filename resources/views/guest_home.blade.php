@@ -65,7 +65,7 @@
 
 
         function toggleFunc(id){
-            window.location.href = "../../login";
+            window.location.href = "../../register";
           /*  var x = document.getElementById("post_body"+id);
             var y = document.getElementById("post_footer"+id)
             if (x.style.display === "none") {

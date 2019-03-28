@@ -27,6 +27,7 @@ class SittersController extends Controller
         if(!isset($_COOKIE['username'])){
             return redirect('login');
         }
+
         $images = DB::select("select * from images");
         $results_active = DB::select("select * from posts where active=?",[ true] );
 

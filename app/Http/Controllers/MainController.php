@@ -21,29 +21,34 @@ class MainController extends Controller
      */
     public function index()
     {
-        return view('login');
+        return view('login');   //serving login.blade
     }
 
-    public function guest_home(){
-
-        return view('guest_home');
-    }
 
     public function register(){
-        $roles = Role::all();
-        return view('register')->with('roles',$roles);
+        return view('register'); //serving register.blade
     }
 
     public function verifyCode(Request $request){
         $code = $request->get("code");
-        $username = $request->get("username");
+        $username = $request->get("username");  //getting params from request
 
-        $code_db = DB::select("select remember_token from users where username=? limit 1",[$username]);
-
+        $code_db = DB::select("select remember_token from users where username=? limit 1",[$username]); //getting token code from db
 
         if($code_db[0]->remember_token == $code){
             DB::insert('update users set verified=? where remember_token=? and username=?',[true, $code, $username]);
-            return redirect("/login");
+
+
+            $id = DB::select("select id from users where username=? limit 1",[$username]);
+            if(Auth::loginUsingId($id[0]->id)){
+                setcookie('username',$request->get('username'),time()+(86400*30),'/');  //set cookies for 30 days with username
+
+                return redirect('main/sitters/home');
+            }
+            else{
+                return back()->with('error','Something went wrong!');
+            }
+
         }
         else{
             return back()->with('error','Wrong code');
@@ -94,14 +99,13 @@ class MainController extends Controller
         });
 
 
-
         return redirect('/verifyEmail/'.$name);
-        //return $this->verifyEmail($name);
+
     }
 
     public function logout(Request $request){
         Auth::logout();
-        setcookie('username',"",time()+(86400+30),'/');
+        setcookie('username',"",time()+(86400*30),'/'); //clear username cookies
         return redirect('/login');
     }
 
@@ -118,7 +122,7 @@ class MainController extends Controller
 
         if(Auth::attempt($user_array)){
             if(Auth::user()->verified == true) {
-                    setcookie('username',$request->get('username'),time()+(86400*30),'/');
+                    setcookie('username',$request->get('username'),time()+(86400*30),'/');  //set cookies for 30 days with username
 
                     return redirect('main/sitters/home');
             }
